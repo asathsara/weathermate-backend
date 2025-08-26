@@ -16,6 +16,10 @@ public class UserPrinciple implements UserDetails {
         this.user = users;
     }
 
+    public User getUser() {
+        return user;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singleton(new SimpleGrantedAuthority("USER"));
