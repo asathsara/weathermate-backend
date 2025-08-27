@@ -43,6 +43,6 @@ public class WeatherService {
     }
 
     public List<SearchHistory> getHistory(User user) {
-        return null;
+        return historyRepository.findByUserOrderBySearchedAtDesc(user);
     }
 }
