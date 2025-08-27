@@ -15,7 +15,7 @@ public class SearchHistory {
     private LocalDateTime searchedAt;
 
     @ManyToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "user_id")
     private User user;
 
     public Long getId() {
