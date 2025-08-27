@@ -1,6 +1,7 @@
 package com.example.weathermatebackend.controller;
 
 
+import com.example.weathermatebackend.dto.WeatherDto;
 import com.example.weathermatebackend.model.SearchHistory;
 import com.example.weathermatebackend.model.User;
 import com.example.weathermatebackend.model.UserPrinciple;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Map;
+
 
 @RestController
 @RequestMapping("/api")
@@ -26,7 +27,7 @@ public class WeatherController {
     }
 
     @GetMapping("/weather/{city}")
-    public Map<String, Object> getWeather(@PathVariable String city, @AuthenticationPrincipal UserPrinciple userPrinciple) {
+    public WeatherDto getWeather(@PathVariable String city, @AuthenticationPrincipal UserPrinciple userPrinciple) {
         User user =  userPrinciple.getUser();
         return weatherService.fetchWeather(city, user);
 

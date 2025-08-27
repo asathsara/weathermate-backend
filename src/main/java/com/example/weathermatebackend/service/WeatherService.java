@@ -1,5 +1,6 @@
 package com.example.weathermatebackend.service;
 
+import com.example.weathermatebackend.dto.WeatherDto;
 import com.example.weathermatebackend.model.SearchHistory;
 import com.example.weathermatebackend.model.User;
 import com.example.weathermatebackend.repository.SearchHistoryRepository;
@@ -9,16 +10,12 @@ import org.springframework.web.client.RestClient;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class WeatherService {
 
     @Value("${openweathermap.api.key}")
     private String apiKey;
-
-    @Value("${openweathermap.api.url}")
-    private String apiUrl;
 
     private final RestClient restClient;
     private final SearchHistoryRepository historyRepository;
@@ -29,12 +26,11 @@ public class WeatherService {
     }
 
 
-    public Map<String, Object> fetchWeather(String city, User user) {
-        Map<String, Object>  response  = restClient.get()
+    public WeatherDto fetchWeather(String city, User user) {
+        WeatherDto response  = restClient.get()
                 .uri("/weather?q={city}&appid={apiKey}", city, apiKey) // relative to base URL
                 .retrieve()
-                .body(Map.class);
-
+                .body(WeatherDto.class);
 
         // Save history
         SearchHistory history = new SearchHistory();
