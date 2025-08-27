@@ -1,9 +1,11 @@
 package com.example.weathermatebackend.model;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.time.LocalDateTime;
 
+@Data
 @Entity
 public class SearchHistory {
 
@@ -18,35 +20,5 @@ public class SearchHistory {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Long getId() {
-        return id;
-    }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public LocalDateTime getSearchedAt() {
-        return searchedAt;
-    }
-
-    public void setSearchedAt(LocalDateTime searchedAt) {
-        this.searchedAt = searchedAt;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
 }
