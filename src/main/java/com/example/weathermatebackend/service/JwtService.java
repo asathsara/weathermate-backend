@@ -23,8 +23,11 @@ import io.jsonwebtoken.security.Keys;
 public class JwtService {
     private final String secretKey;
 
-    @Value("${jwt.expiration}")
-    private long jwtExpirationInMillis;
+    @Value("${jwt.access.expiration}")
+    private long accessTokenExpirationMillis;
+
+    @Value("${jwt.refresh.expiration}")
+    private long refreshTokenExpirationMillis;
 
     public JwtService() {
         try {
@@ -39,7 +42,16 @@ public class JwtService {
 
     }
 
-    public String generateToken(String username) {
+    public String generateAccessToken(String username) {
+        return generateToken(username, accessTokenExpirationMillis);
+    }
+
+    public String generateRefreshToken(String username) {
+        return generateToken(username, refreshTokenExpirationMillis);
+    }
+
+    // generate token
+    public String generateToken(String username, long jwtExpirationInMillis) {
 
         Map<String , Object> claims = new HashMap<>();
 
@@ -65,6 +77,7 @@ public class JwtService {
         return extractClaim(token, Claims::getSubject);
     }
 
+
     private <T> T extractClaim(String token, Function<Claims, T> claimResolver) {
         final Claims claims = extractAllClaims(token);
         return claimResolver.apply(claims);
@@ -81,6 +94,15 @@ public class JwtService {
     public boolean validateToken(String token, UserDetails userDetails) {
         final String userName = extractUsername(token);
         return (userName.equals(userDetails.getUsername()) && !isTokenExpired(token));
+    }
+
+    public boolean validateToken(String token) {
+        try {
+            extractAllClaims(token);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     private boolean isTokenExpired(String token) {
