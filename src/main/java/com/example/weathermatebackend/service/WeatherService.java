@@ -33,11 +33,15 @@ public class WeatherService {
                 .body(WeatherDto.class);
 
         // Save history
-        SearchHistory history = new SearchHistory();
-        history.setCity(city);
-        history.setUser(user);
-        history.setSearchedAt(LocalDateTime.now());
-        historyRepository.save(history);
+        if (response != null) {
+            SearchHistory history = new SearchHistory();
+            history.setCity(city);
+            history.setUser(user);
+            history.setSearchedAt(LocalDateTime.now());
+            history.setTemperature(response.getMain().getTemp());
+            historyRepository.save(history);
+        }
+
 
         return response;
     }

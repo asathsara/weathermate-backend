@@ -14,7 +14,10 @@ public class SearchHistory {
     private Long id;
 
     private String city;
+
     private LocalDateTime searchedAt;
+
+    private double temperature;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
