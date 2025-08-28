@@ -1,5 +1,6 @@
 package com.example.weathermatebackend.service;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +22,9 @@ import io.jsonwebtoken.security.Keys;
 @Service
 public class JwtService {
     private final String secretKey;
+
+    @Value("${jwt.expiration}")
+    private long jwtExpirationInMillis;
 
     public JwtService() {
         try {
@@ -44,15 +48,13 @@ public class JwtService {
                 .add(claims)
                 .subject(username)
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() +  60 * 60 * 30))
+                .expiration(new Date(System.currentTimeMillis() +  jwtExpirationInMillis))
                 .and()
                 .signWith(getKey())
                 .compact();
     }
 
     private SecretKey getKey() {
-
-
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         return Keys.hmacShaKeyFor(keyBytes);
 
