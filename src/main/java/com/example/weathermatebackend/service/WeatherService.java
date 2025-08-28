@@ -1,5 +1,6 @@
 package com.example.weathermatebackend.service;
 
+import com.example.weathermatebackend.dto.SearchHistoryDto;
 import com.example.weathermatebackend.dto.WeatherDto;
 import com.example.weathermatebackend.model.SearchHistory;
 import com.example.weathermatebackend.model.User;
@@ -46,7 +47,7 @@ public class WeatherService {
         return response;
     }
 
-    public List<SearchHistory> getHistory(User user) {
+    public List<SearchHistoryDto> getHistory(User user) {
         return historyRepository.findByUserOrderBySearchedAtDesc(user);
     }
 }

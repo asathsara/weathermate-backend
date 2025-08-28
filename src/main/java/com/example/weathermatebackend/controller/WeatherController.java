@@ -1,8 +1,8 @@
 package com.example.weathermatebackend.controller;
 
 
+import com.example.weathermatebackend.dto.SearchHistoryDto;
 import com.example.weathermatebackend.dto.WeatherDto;
-import com.example.weathermatebackend.model.SearchHistory;
 import com.example.weathermatebackend.model.User;
 import com.example.weathermatebackend.model.UserPrinciple;
 import com.example.weathermatebackend.service.WeatherService;
@@ -34,7 +34,7 @@ public class WeatherController {
     }
 
     @GetMapping("/history")
-    public List<SearchHistory> getHistory(@AuthenticationPrincipal UserPrinciple userPrinciple) {
+    public List<SearchHistoryDto> getHistory(@AuthenticationPrincipal UserPrinciple userPrinciple) {
         User user =  userPrinciple.getUser();
         return weatherService.getHistory(user);
     }
