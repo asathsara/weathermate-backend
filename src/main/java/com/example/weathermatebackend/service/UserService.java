@@ -5,6 +5,7 @@ import com.example.weathermatebackend.model.User;
 import com.example.weathermatebackend.repository.UserRepository;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.stereotype.Service;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -13,6 +14,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Service
 public class UserService {
+
+    @Value("${jwt.refresh.expiration.seconds}")
+    private long refreshTokenExpirationSeconds;
+
+    @Value("${jwt.refreshTokenCookieName}")
+    private String refreshTokenCookieName;
 
     private final UserRepository userRepository;
     final AuthenticationManager authManager;
@@ -44,12 +51,12 @@ public class UserService {
             String refreshToken = jwtService.generateRefreshToken(user.getUsername());
 
             // THIS is where the cookie is created and sent to the browser
-            Cookie cookie = new Cookie("refreshToken", refreshToken);
+            Cookie cookie = new Cookie(refreshTokenCookieName, refreshToken);
             cookie.setHttpOnly(true);       // JS cannot access it
             cookie.setSecure(true);         // HTTPS only
             cookie.setPath("/");            // available for all endpoints
-            cookie.setMaxAge(7 * 24 * 60 * 60); // 7 days
-            response.addCookie(cookie);     // <-- browser saves it automatically
+            cookie.setMaxAge((int) refreshTokenExpirationSeconds); // 7 days
+            response.addCookie(cookie);     //  browser saves it automatically
 
             return new AuthResponseDto(accessToken, "Login successful");
         }
