@@ -1,6 +1,7 @@
 package com.example.weathermatebackend.service;
 
 import com.example.weathermatebackend.dto.AuthResponseDto;
+import com.example.weathermatebackend.dto.UserRegistrationDto;
 import com.example.weathermatebackend.model.User;
 import com.example.weathermatebackend.repository.UserRepository;
 import jakarta.servlet.http.Cookie;
@@ -33,13 +34,20 @@ public class UserService {
         this.jwtService = jwtService;
     }
 
-    public User register(User user){
+    public User register(UserRegistrationDto dto){
 
-        // Bcrypt the password
-        user.setPassword(encoder.encode(user.getPassword()));
+        // Check if username already exists
+        if (userRepository.existsByUsername(dto.getUsername())) {
+            throw new IllegalStateException("Username already exists");
+        }
 
-        userRepository.save(user);
-        return user;
+        User user = new User();
+        user.setUsername(dto.getUsername());
+
+        // Bcrypt hash the password before saving
+        user.setPassword(encoder.encode(dto.getPassword()));
+
+        return userRepository.save(user);
     }
 
     public AuthResponseDto verify(User user, HttpServletResponse response) {

@@ -1,10 +1,12 @@
 package com.example.weathermatebackend.controller;
 
 import com.example.weathermatebackend.dto.AuthResponseDto;
+import com.example.weathermatebackend.dto.UserRegistrationDto;
 import com.example.weathermatebackend.model.User;
 import com.example.weathermatebackend.service.JwtService;
 import com.example.weathermatebackend.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,8 +25,9 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public User register(@RequestBody User user) {
-        return userService.register(user);
+    public ResponseEntity<User> register(@Valid @RequestBody UserRegistrationDto dto) {
+        User user = userService.register(dto);
+        return ResponseEntity.ok(user);
     }
 
 
