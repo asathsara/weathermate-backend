@@ -2,6 +2,7 @@ package com.example.weathermatebackend.service;
 
 import com.example.weathermatebackend.dto.AuthResponseDto;
 import com.example.weathermatebackend.dto.UserRegistrationDto;
+import com.example.weathermatebackend.exception.UsernameAlreadyExistsException;
 import com.example.weathermatebackend.model.User;
 import com.example.weathermatebackend.repository.UserRepository;
 import jakarta.servlet.http.Cookie;
@@ -38,8 +39,9 @@ public class UserService {
 
         // Check if username already exists
         if (userRepository.existsByUsername(dto.getUsername())) {
-            throw new IllegalStateException("Username already exists");
+            throw new UsernameAlreadyExistsException("Username already exists");
         }
+
 
         User user = new User();
         user.setUsername(dto.getUsername());
