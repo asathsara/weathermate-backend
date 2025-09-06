@@ -11,9 +11,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit tests for {@link JwtService}.
- *
- * ✅ Focus: testing JWT generation, claim extraction, and validation.
- * ✅ Approach: Arrange → Act → Assert structure for clarity.
+ * Focus: testing JWT generation, claim extraction, and validation.
+ * Approach: Arrange → Act → Assert structure for clarity.
  */
 class JwtServiceTest {
 

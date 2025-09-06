@@ -26,12 +26,16 @@ public class WeatherService {
         this.historyRepository = historyRepository;
     }
 
-
-    public WeatherDto fetchWeather(String city, User user) {
-        WeatherDto response  = restClient.get()
-                .uri("/weather?q={city}&appid={apiKey}", city, apiKey) // relative to base URL
+    protected WeatherDto callWeatherApi(String city) {
+        return restClient.get()
+                .uri("/weather?q={city}&appid={apiKey}", city, apiKey)
                 .retrieve()
                 .body(WeatherDto.class);
+    }
+
+    public WeatherDto fetchWeather(String city, User user) {
+        // Call external API
+        WeatherDto response = callWeatherApi(city);
 
         // Save history
         if (response != null) {

@@ -24,8 +24,8 @@ import static org.mockito.Mockito.*;
 
 /**
  * Unit tests for {@link UserService}.
- * ✅ Focus: testing business logic only (repository, jwt, and auth manager are mocked).
- * ✅ Approach: "Arrange, Act, Assert" structure inside each test.
+ * Focus: testing business logic only (repository, jwt, and auth manager are mocked).
+ * Approach: "Arrange, Act, Assert" structure inside each test.
  */
 @ExtendWith(MockitoExtension.class)
 class UserServiceTest {
