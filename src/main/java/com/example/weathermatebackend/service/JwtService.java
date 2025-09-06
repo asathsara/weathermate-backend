@@ -1,5 +1,9 @@
 package com.example.weathermatebackend.service;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -9,11 +13,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
-
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.io.Decoders;
-import io.jsonwebtoken.security.Keys;
 
 
 @Service
@@ -80,9 +79,15 @@ public class JwtService {
     }
 
     public boolean validateToken(String token, UserDetails userDetails) {
-        final String userName = extractUsername(token);
-        return (userName.equals(userDetails.getUsername()) && !isTokenExpired(token));
+        try {
+            final String userName = extractUsername(token); // parseClaimsJws happens here
+            return (userName.equals(userDetails.getUsername()) && !isTokenExpired(token));
+        } catch (Exception e) {
+            // expired, malformed, or any invalid token, return false
+            return false;
+        }
     }
+
 
     public boolean validateToken(String token) {
         try {
