@@ -65,6 +65,7 @@ public class UserService {
             cookie.setHttpOnly(true);       // JS cannot access it
             cookie.setSecure(true);         // HTTPS only
             cookie.setPath("/");            // available for all endpoints
+            cookie.setAttribute("SameSite", "None");
             cookie.setMaxAge((int) refreshTokenExpirationSeconds); // 7 days
             response.addCookie(cookie);     //  browser saves it automatically
 
