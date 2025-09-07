@@ -9,6 +9,13 @@ on:
 jobs:
   build-and-docker:
     runs-on: ubuntu-latest
+    env:
+      DB_URL: ${{ secrets.DB_URL }}
+      DB_USER: ${{ secrets.DB_USER }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      OWM_URL: ${{ secrets.OWM_URL }}
+      OWM_KEY: ${{ secrets.OWM_KEY }}
+      JWT_SECRET: ${{ secrets.JWT_SECRET }}
 
     steps:
       # 1. Checkout repo
