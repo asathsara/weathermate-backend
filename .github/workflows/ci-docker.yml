@@ -17,6 +17,7 @@ jobs:
       OWM_URL: ${{ secrets.OWM_URL }}
       OWM_KEY: ${{ secrets.OWM_KEY }}
       JWT_SECRET: ${{ secrets.JWT_SECRET }}
+      CORS_ALLOWED_ORIGINS: ${{ secrets.CORS_ALLOWED_ORIGINS }}
 
     steps:
       # 1. Checkout repository
@@ -65,5 +66,5 @@ jobs:
             --platform managed \
             --region asia-southeast1 \
             --allow-unauthenticated \
-            --set-env-vars 'DB_URL=${{ secrets.DB_URL }},DB_USER=${{ secrets.DB_USER }},DB_PASSWORD=${{ secrets.DB_PASSWORD }},OWM_URL=${{ secrets.OWM_URL }},OWM_KEY=${{ secrets.OWM_KEY }},JWT_SECRET=${{ secrets.JWT_SECRET }}'
+            --set-env-vars 'DB_URL=${{ secrets.DB_URL }},DB_USER=${{ secrets.DB_USER }},DB_PASSWORD=${{ secrets.DB_PASSWORD }},OWM_URL=${{ secrets.OWM_URL }},OWM_KEY=${{ secrets.OWM_KEY }},JWT_SECRET=${{ secrets.JWT_SECRET }} ,CORS_ALLOWED_ORIGINS=${{ secrets.CORS_ALLOWED_ORIGINS }}'
       
