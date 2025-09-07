@@ -1,0 +1,35 @@
+name: CI - Build, Test & Docker
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-and-docker:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout repo
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # 2. Setup Java 21
+      - name: Set up JDK 21
+        uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: 21
+
+      # 3. Build with Maven
+      - name: Build JAR
+        run: ./mvnw clean install -DskipTests
+
+      # 4. Run tests
+      - name: Run tests
+        run: ./mvnw test
+
+      # 5. Build Docker image
+      - name: Build Docker image
+        run: docker build -t weathermate-backend .
